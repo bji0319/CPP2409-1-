@@ -11,7 +11,7 @@ int main()
     cout << "x= " << ++x << endl;
     cout << "x= " << x-- << endl;
     cout << "x= " << x-- << endl;
-    cout << "x= " << x--x << endl;
+    cout << "x= " << x-- << endl;
 
     return 0;
 }
