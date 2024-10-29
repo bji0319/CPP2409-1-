@@ -42,7 +42,7 @@ int main(){
         i++;
     }
 
-    // 
+
     int choice;
     while (true) {
         cout << "\n메뉴를 선택하세요:" << endl;
