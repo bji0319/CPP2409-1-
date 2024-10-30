@@ -9,10 +9,10 @@ int main() {
 
     for(i=0; i< STUDENTS; i++){
         cout << "학생들의 성적을 입력하시오 : ";
-        cin >> scores[1];
+        cin >> scores[i];
     }
     for(i = 0; i < STUDENTS; i++)
-    sum += scores[1];
+    sum += scores[i];
 
     average = sum/ STUDENTS;
     cout << "성적 평균= " << average << endl;
