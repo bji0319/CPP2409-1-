@@ -37,6 +37,9 @@ bool checkWin(char currentUser, char board[][5], int numCell) {
 }
 int main() {
     const int numCell = 5; // 보드판의 가로 세로 길이
+    
+    
+    
     int k = 0; // 누구 차례인지 체크하기 위한 변수
     char players[3] = {'X', 'O', 'Y'}; // 3명의 플레이어
     char currentUser; // 현재 유저의 돌을 저장하기 위한 변수
