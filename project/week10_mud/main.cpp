@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "user.h"
+#include <vector>
 using namespace std;
 
 const int mapX = 5;
@@ -8,13 +9,13 @@ const int mapY = 5;
 
 // 사용자 정의 함수
 bool checkXY(int user_x, int mapX, int user_y, int mapY);
-void displayMap(int map[][mapX], int user_x, int user_y);
-bool checkGoal(int map[][mapX], int user_x, int user_y);
-void checkState(int map[][mapX], int user_x, int user_y, User &user); 
+void displayMap(vector<vector<int>> map , int user_x, int user_y);
+bool checkGoal(vector<vector<int>> map , int user_x, int user_y);
+void checkState(vector<vector<int>> map , int user_x, int user_y, User &user); 
 
 // 메인 함수
 int main() {
-    int map[mapY][mapX] = { {0, 1, 2, 0, 4},
+    vector<vector<int>> map = { {0, 1, 2, 0, 4},
                             {1, 0, 0, 2, 0},
                             {0, 0, 0, 0, 0},
                             {0, 2, 3, 0, 0},
