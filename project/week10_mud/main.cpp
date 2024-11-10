@@ -110,7 +110,7 @@ int main() {
     return 0;
 }
 
-void displayMap(int map[][mapX], int user_x, int user_y) {
+void displayMap(vector<vector<int>> map , int user_x, int user_y) {
 	for (int i = 0; i < mapY; i++) {
 		for (int j = 0; j < mapX; j++) {
 			if (i == user_y && j == user_x) {
@@ -153,7 +153,7 @@ bool checkXY(int user_x, int mapX, int user_y, int mapY) {
 }
 
 // 유저의 위치가 목적지인지 체크하는 함수
-bool checkGoal(int map[][mapX], int user_x, int user_y) {
+bool checkGoal(vector<vector<int>> map , int user_x, int user_y) {
 	// 목적지 도착하면
 	if (map[user_y][user_x] == 4) {
 		return true;
@@ -161,7 +161,7 @@ bool checkGoal(int map[][mapX], int user_x, int user_y) {
 	return false;
 }
 
-void checkState(int map[][mapX], int user_x, int user_y, User &user) {
+void checkState(vector<vector<int>> map , int user_x, int user_y, User &user) {
     int posState = map[user_y][user_x];
     if (posState == 1) {
         cout << "아이템이 있습니다." << endl;
