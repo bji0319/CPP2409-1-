@@ -2,13 +2,13 @@
 #include <iostream>
 using namespace std;
 
-// 생성자: 초기 HP와 itemCnt 설정
+// User 클래스 구현
 User::User() : hp(20), itemCnt(0) {}
 
 // HP 감소 함수
 void User::DecreaseHP(int dec_hp) {
     hp -= dec_hp;
-    if (hp < 0) hp = 0;  // HP가 음수로 내려가지 않도록 처리
+    if (hp < 0) hp = 0;
 }
 
 // HP 증가 함수
@@ -31,8 +31,22 @@ int User::GetItemCount() const {
     return itemCnt;
 }
 
-// 출력 연산자 중복 정의
+void User::DoAttack() {
+    cout << "공격합니다!" << endl;
+}
+
 ostream& operator<<(ostream& os, const User& user) {
     os << "현재 HP: " << user.hp << " / 먹은 아이템 수: " << user.itemCnt;
     return os;
 }
+
+// Magician 공격 구현
+void Magician::DoAttack() {
+    cout << "마법 사용!" << endl;
+}
+
+// Warrior 공격 구현
+void Warrior::DoAttack() {
+    cout << "베기 사용!" << endl;
+}
+
