@@ -40,13 +40,12 @@ ostream& operator<<(ostream& os, const User& user) {
     return os;
 }
 
-// Magician 공격 구현
+// Magician 클래스 구현
 void Magician::DoAttack() {
     cout << "마법 사용!" << endl;
 }
 
-// Warrior 공격 구현
+// Warrior 클래스 구현
 void Warrior::DoAttack() {
     cout << "베기 사용!" << endl;
 }
-
