@@ -1,20 +1,18 @@
-
 #include <iostream>
 #include <string>
 #include <vector>
 #include "user.h"  // User, Magician, Warrior 클래스 정의 포함
 using namespace std;
 
-const int mapX = 5;
-const int mapY = 5;
-
-// 사용자 정의 함수
+// 함수 선언
 bool checkXY(int user_x, int mapX, int user_y, int mapY);
 void displayMap(vector<vector<int>> map, int user_x, int user_y);
 bool checkGoal(vector<vector<int>> map, int user_x, int user_y);
 void checkState(vector<vector<int>> map, int user_x, int user_y, User& user);
 
-// 메인 함수
+const int mapX = 5;
+const int mapY = 5;
+
 int main() {
     vector<vector<int>> map = { {0, 1, 2, 0, 4},
                                 {1, 0, 0, 2, 0},
@@ -23,8 +21,8 @@ int main() {
                                 {3, 0, 0, 0, 2} };
 
     // Magician과 Warrior 객체 생성
-    Magician magician;
-    Warrior warrior;
+    Magician magician(1);
+    Warrior warrior(2);
 
     int user_x = 0;
     int user_y = 0;
@@ -35,21 +33,15 @@ int main() {
     cout << "Magician과 Warrior가 게임을 시작합니다!" << endl;
 
     while (1) {
-        string user_input = "";
+        string user_input;
 
         // 현재 플레이어 출력
-        if (currentPlayer == 0) {
-            cout << "현재 플레이어: Magician" << endl;
-            cout << "상태: " << magician << endl;
-        } else {
-            cout << "현재 플레이어: Warrior" << endl;
-            cout << "상태: " << warrior << endl;
-        }
+        User& activePlayer = (currentPlayer == 0) ? (User&)magician : (User&)warrior;
+        cout << "현재 플레이어: " << ((currentPlayer == 0) ? "Magician" : "Warrior") << endl;
+        cout << "상태: " << activePlayer << endl;
 
         cout << "명령어를 입력하세요 (상,하,좌,우,지도,정보,공격,종료): ";
         cin >> user_input;
-
-        User& activePlayer = (currentPlayer == 0) ? (User&)magician : (User&)warrior;
 
         if (user_input == "상") {
             user_y -= 1;
@@ -58,12 +50,11 @@ int main() {
                 user_y += 1;
             } else {
                 cout << "위로 한 칸 올라갑니다." << endl;
-                checkState(map, user_x, user_y, activePlayer);  // 현재 플레이어로 상태 처리
-                activePlayer.DecreaseHP(1);  // 이동 시 HP 감소
+                checkState(map, user_x, user_y, activePlayer);
+                activePlayer.DecreaseHP(1);
                 displayMap(map, user_x, user_y);
             }
-        }
-        else if (user_input == "하") {
+        } else if (user_input == "하") {
             user_y += 1;
             if (!checkXY(user_x, mapX, user_y, mapY)) {
                 cout << "맵을 벗어났습니다. 다시 돌아갑니다." << endl;
@@ -74,8 +65,7 @@ int main() {
                 activePlayer.DecreaseHP(1);
                 displayMap(map, user_x, user_y);
             }
-        }
-        else if (user_input == "좌") {
+        } else if (user_input == "좌") {
             user_x -= 1;
             if (!checkXY(user_x, mapX, user_y, mapY)) {
                 cout << "맵을 벗어났습니다. 다시 돌아갑니다." << endl;
@@ -86,8 +76,7 @@ int main() {
                 activePlayer.DecreaseHP(1);
                 displayMap(map, user_x, user_y);
             }
-        }
-        else if (user_input == "우") {
+        } else if (user_input == "우") {
             user_x += 1;
             if (!checkXY(user_x, mapX, user_y, mapY)) {
                 cout << "맵을 벗어났습니다. 다시 돌아갑니다." << endl;
@@ -98,42 +87,32 @@ int main() {
                 activePlayer.DecreaseHP(1);
                 displayMap(map, user_x, user_y);
             }
-        }
-        else if (user_input == "지도") {
+        } else if (user_input == "지도") {
             displayMap(map, user_x, user_y);
-        }
-        else if (user_input == "정보") {
+        } else if (user_input == "정보") {
             cout << "Magician 상태: " << magician << endl;
             cout << "Warrior 상태: " << warrior << endl;
-        }
-        else if (user_input == "공격") {
+        } else if (user_input == "공격") {
+            activePlayer.DoAttack();
             if (currentPlayer == 0) {
-                cout << "Magician의 공격 차례입니다." << endl;
-                magician.DoAttack();
                 warrior.DecreaseHP(5);
                 cout << "Warrior의 상태: " << warrior << endl;
-
                 if (warrior.GetHP() <= 0) {
                     cout << "Warrior가 쓰러졌습니다! Magician 승리!" << endl;
                     break;
                 }
             } else {
-                cout << "Warrior의 공격 차례입니다." << endl;
-                warrior.DoAttack();
                 magician.DecreaseHP(7);
                 cout << "Magician의 상태: " << magician << endl;
-
                 if (magician.GetHP() <= 0) {
                     cout << "Magician이 쓰러졌습니다! Warrior 승리!" << endl;
                     break;
                 }
             }
-        }
-        else if (user_input == "종료") {
+        } else if (user_input == "종료") {
             cout << "게임을 종료합니다." << endl;
             break;
-        }
-        else {
+        } else {
             cout << "잘못된 입력입니다." << endl;
             continue;
         }
@@ -144,23 +123,13 @@ int main() {
             break;
         }
 
-        if (magician.GetHP() <= 0 || warrior.GetHP() <= 0) {
-            cout << "게임 종료." << endl;
-            break;
-        }
-
         // 턴 교체
-        if (currentPlayer == 0) {
-            currentPlayer = 1; // Magician → Warrior
-        } else {
-            currentPlayer = 0; // Warrior → Magician
-        }
+        currentPlayer = (currentPlayer + 1) % 2;
     }
 
     return 0;
 }
 
-// 지도 표시 함수
 void displayMap(vector<vector<int>> map, int user_x, int user_y) {
     for (int i = 0; i < mapY; i++) {
         for (int j = 0; j < mapX; j++) {
